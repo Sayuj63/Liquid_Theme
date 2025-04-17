@@ -1,0 +1,197 @@
+<section class="category-showcase-section">
+  <div class="category-bg-scroll">
+    <div class="scroll-text">
+      <span>TOPS</span><span>BOTTOMS</span><span>OUTERWEAR</span>
+      <span>TOPS</span><span>BOTTOMS</span><span>OUTERWEAR</span>
+      <span>TOPS</span><span>BOTTOMS</span><span>OUTERWEAR</span>
+    </div>
+  </div>
+  <div class="category-grid">
+    {% for i in (1..3) %}
+      <div class="category-col" style="z-index:2;">
+        <div class="category-image-wrapper">
+          {%- assign img = section.settings["image_" | append: i] -%}
+          {%- assign title = section.settings["title_" | append: i] -%}
+          {%- assign link = section.settings["link_" | append: i] -%}
+          {%- if img != blank -%}
+            <img src="{{ img | image_url: width:800, height:1000 }}" alt="{{ title }}" class="category-image" width="800" height="1000" />
+          {%- endif -%}
+          <div class="category-overlay">
+            <span class="category-title">{{ title }}</span>
+            {%- if link != blank -%}
+              <a class="shop-now-btn" href="{{ link }}">SHOP NOW ↗</a>
+            {%- endif -%}
+          </div>
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+  <style>
+    .category-showcase-section {
+      position: relative;
+      width: 100vw;
+      min-height: 380px;
+      background: #111;
+      overflow: hidden;
+      border: 2px solid #fff;
+      margin: 0;
+      padding: 0;
+    }
+    .category-bg-scroll {
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 0;
+      overflow: hidden;
+      pointer-events: none;
+    }
+    .scroll-text {
+      display: flex;
+      align-items: center;
+      height: 100%;
+      font-size: 7vw;
+      font-weight: 900;
+      color: #fff;
+      opacity: 0.09;
+      white-space: nowrap;
+      animation: scroll-bg-text 18s linear infinite;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      font-family: 'Montserrat', 'Arial Black', Arial, sans-serif;
+      user-select: none;
+    }
+    .scroll-text span {
+      margin: 0 2vw;
+      display: inline-block;
+    }
+    @keyframes scroll-bg-text {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-33%); }
+    }
+    .category-grid {
+      position: relative;
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 0;
+      z-index: 1;
+      width: 100%;
+      min-height: 340px;
+      border-collapse: separate;
+    }
+    .category-col {
+      position: relative;
+      background: #111;
+      border-right: 2px solid #fff;
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
+      overflow: hidden;
+      min-height: 340px;
+      transition: z-index 0.2s;
+    }
+    .category-col:last-child {
+      border-right: none;
+    }
+    .category-image-wrapper {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      min-height: 340px;
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
+      overflow: hidden;
+    }
+    .category-image {
+      width: 100%;
+      height: 340px;
+      object-fit: cover;
+      opacity: 0.72;
+      transition: transform 0.38s cubic-bezier(.23,1.02,.41,.98), opacity 0.38s;
+      filter: grayscale(0.2) brightness(0.85);
+      z-index: 1;
+      pointer-events: none;
+    }
+    .category-overlay {
+      position: absolute;
+      left: 0; right: 0; bottom: 0;
+      padding: 28px 24px 20px 24px;
+      display: flex;
+      flex-direction: row;
+      align-items: flex-end;
+      justify-content: space-between;
+      width: 100%;
+      z-index: 2;
+    }
+    .category-title {
+      color: #fff;
+      font-size: 1.5vw;
+      font-weight: bold;
+      letter-spacing: 0.03em;
+      text-shadow: 0 2px 8px rgba(0,0,0,0.18);
+      opacity: 0.85;
+      text-transform: uppercase;
+      font-family: 'Montserrat', 'Arial Black', Arial, sans-serif;
+    }
+    .shop-now-btn {
+      display: none;
+      color: #111;
+      background: #fff;
+      padding: 10px 24px;
+      font-weight: bold;
+      border-radius: 2px;
+      text-decoration: none;
+      font-size: 1vw;
+      border: 2px solid #fff;
+      margin-left: 12px;
+      transition: background 0.18s, color 0.18s;
+      opacity: 0.97;
+    }
+    .category-col:hover .category-image {
+      opacity: 1;
+      transform: scale(1.07) translateY(-12px);
+      filter: grayscale(0) brightness(1);
+      z-index: 3;
+    }
+    .category-col:hover .shop-now-btn {
+      display: inline-block;
+    }
+    .category-col:hover {
+      z-index: 10;
+      box-shadow: 0 6px 44px 0 rgba(0,0,0,0.22);
+    }
+    @media (max-width: 900px) {
+      .category-grid {
+        grid-template-columns: 1fr;
+        grid-template-rows: repeat(3, 1fr);
+      }
+      .category-title {
+        font-size: 6vw;
+      }
+      .shop-now-btn {
+        font-size: 3vw;
+      }
+      .category-image {
+        height: 40vw;
+      }
+    }
+  </style>
+</section>
+
+{% schema %}
+{
+  "name": "Category Showcase",
+  "settings": [
+    { "type": "image_picker", "id": "image_1", "label": "Tops Image" },
+    { "type": "text", "id": "title_1", "label": "Tops Title", "default": "TOPS" },
+    { "type": "url", "id": "link_1", "label": "Tops Link" },
+    { "type": "image_picker", "id": "image_2", "label": "Bottoms Image" },
+    { "type": "text", "id": "title_2", "label": "Bottoms Title", "default": "BOTTOMS" },
+    { "type": "url", "id": "link_2", "label": "Bottoms Link" },
+    { "type": "image_picker", "id": "image_3", "label": "Outerwear Image" },
+    { "type": "text", "id": "title_3", "label": "Outerwear Title", "default": "OUTERWEAR" },
+    { "type": "url", "id": "link_3", "label": "Outerwear Link" }
+  ]
+}
+{% endschema %}

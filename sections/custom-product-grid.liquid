@@ -1,0 +1,300 @@
+<section class="custom-product-grid-section">
+  <div class="product-grid-wrapper">
+    <!-- LEFT STICKY BOX -->
+    <div class="left-sticky-box">
+      <div class="sticky-content">
+        <div class="sticky-image-wrapper">
+          {%- if section.settings.left_image != blank -%}
+            <img 
+              src="{{ section.settings.left_image | image_url: width:800, height:1000 }}"
+              alt="{{ section.settings.left_title }}"
+              style="object-position: {{ section.settings.left_focal_point }};"
+              class="left-image"
+              width="800" height="1000"
+            />
+          {%- endif -%}
+        </div>
+        <div class="sticky-title-box">
+          <h2 class="sticky-title">{{ section.settings.left_title }}</h2>
+          {%- if section.settings.left_button_text and section.settings.left_button_link -%}
+            <a class="sticky-btn" href="{{ section.settings.left_button_link }}">{{ section.settings.left_button_text }}</a>
+          {%- endif -%}
+        </div>
+      </div>
+    </div>
+
+    <!-- RIGHT PRODUCT GRID -->
+    <div class="right-product-grid">
+      {% for i in (1..4) %}
+        {% assign product = section.settings["product_" | append: i] %}
+        {% if product != blank %}
+          {% assign product_obj = all_products[product] %}
+          <div class="product-card">
+            <div class="product-image-wrapper">
+              {% if product_obj.images.size > 0 %}
+                <img 
+                  src="{{ product_obj.images[0] | image_url: width:600, height:800 }}"
+                  alt="{{ product_obj.title }}"
+                  class="main-product-image"
+                  width="600" height="800"
+                />
+                {% if product_obj.images.size > 1 %}
+                  <img 
+                    src="{{ product_obj.images[1] | image_url: width:600, height:800 }}"
+                    alt="{{ product_obj.title }} - alternate"
+                    class="hover-product-image"
+                    width="600" height="800"
+                  />
+                {% endif %}
+              {% endif %}
+            </div>
+            <div class="product-info">
+              {% if product_obj.tags contains 'new' %}
+                <span class="badge new">NEW</span>
+              {% endif %}
+              {% if product_obj.tags contains 'best seller' %}
+                <span class="badge best-seller">BEST SELLER</span>
+              {% endif %}
+              <div class="product-type">{{ product_obj.type }}</div>
+              <div class="product-title">{{ product_obj.title }}</div>
+              <div class="product-price">{{ product_obj.price | money }}</div>
+            </div>
+          </div>
+        {% endif %}
+      {% endfor %}
+    </div>
+  </div>
+
+  <style>
+    .custom-product-grid-section {
+      padding: 0;
+      background: #111;
+    }
+    .product-grid-wrapper {
+      display: grid;
+      grid-template-columns: 1.2fr 2fr;
+      gap: 24px;
+      max-width: 100vw;
+      min-height: 100vh;
+      border: 2px solid #fff;
+      box-sizing: border-box;
+      background: #111;
+    }
+    .left-sticky-box {
+      position: relative;
+      padding: 0;
+      border-right: 2px solid #fff;
+      display: flex;
+      align-items: stretch;
+      min-height: 100vh;
+      background: #111;
+    }
+    .sticky-content {
+      position: sticky;
+      top: 0;
+      display: flex;
+      flex-direction: column;
+      height: 100vh;
+      justify-content: space-between;
+      z-index: 2;
+      background: #111;
+    }
+    .sticky-image-wrapper {
+      width: 100%;
+      flex: 1;
+      display: flex;
+      align-items: flex-start;
+      justify-content: center;
+      overflow: hidden;
+      border-bottom: 2px solid #fff;
+    }
+    .left-image {
+      width: 100%;
+      height: auto;
+      max-height: 70vh;
+      object-fit: cover;
+      display: block;
+      border-bottom: 2px solid #fff;
+    }
+    .sticky-title-box {
+      padding: 32px 24px;
+      background: rgba(17,17,17,0.95);
+      border-top: 2px solid #fff;
+      text-align: left;
+    }
+    .sticky-title {
+      color: #fff;
+      font-size: 3vw;
+      font-weight: bold;
+      margin: 0 0 8px 0;
+      letter-spacing: -0.04em;
+    }
+    .sticky-btn {
+      display: inline-block;
+      color: #111;
+      background: #fff;
+      padding: 10px 24px;
+      font-weight: bold;
+      border-radius: 2px;
+      text-decoration: none;
+      font-size: 1.1vw;
+      border: 2px solid #fff;
+      margin-top: 8px;
+      transition: background 0.18s, color 0.18s;
+    }
+    .sticky-btn:hover {
+      background: #111;
+      color: #fff;
+    }
+    .right-product-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      grid-template-rows: 1fr 1fr;
+      gap: 24px;
+      height: 100%;
+      padding: 24px 0;
+      background: #111;
+    }
+    .product-card {
+      background: #111;
+      border: 2px solid #fff;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      position: relative;
+      min-height: 320px;
+      overflow: hidden;
+      transition: box-shadow 0.2s;
+    }
+    .product-image-wrapper {
+      position: relative;
+      width: 100%;
+      height: 340px;
+      overflow: hidden;
+      border-bottom: 2px solid #fff;
+    }
+    .main-product-image {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: opacity 0.3s;
+      display: block;
+      position: absolute;
+      top: 0; left: 0;
+      z-index: 1;
+    }
+    .hover-product-image {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      position: absolute;
+      top: 0; left: 0;
+      opacity: 0;
+      z-index: 2;
+      transition: opacity 0.3s;
+      pointer-events: none;
+    }
+    .product-card:hover .hover-product-image {
+      opacity: 1;
+    }
+    .product-card:hover .main-product-image {
+      opacity: 0;
+    }
+    .product-info {
+      color: #fff;
+      padding: 20px 18px 16px 18px;
+      background: #111;
+      border-top: 2px solid #fff;
+      min-height: 120px;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+    }
+    .badge {
+      display: inline-block;
+      font-size: 0.85em;
+      font-weight: bold;
+      color: #111;
+      background: #fff;
+      padding: 2px 8px;
+      margin-right: 8px;
+      border-radius: 2px;
+      margin-bottom: 6px;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    .badge.best-seller {
+      background: #fff;
+      color: #111;
+    }
+    .badge.new {
+      background: #fff;
+      color: #111;
+    }
+    .product-type {
+      font-size: 0.85em;
+      color: #fff;
+      margin-bottom: 4px;
+      text-transform: uppercase;
+      opacity: 0.8;
+    }
+    .product-title {
+      font-size: 1.15em;
+      font-weight: bold;
+      margin-bottom: 4px;
+      color: #fff;
+    }
+    .product-price {
+      font-size: 1.2em;
+      font-weight: bold;
+      color: #fff;
+      margin-top: 4px;
+    }
+    @media (max-width: 900px) {
+      .product-grid-wrapper {
+        grid-template-columns: 1fr;
+      }
+      .right-product-grid {
+        grid-template-columns: 1fr;
+        grid-template-rows: repeat(4, 1fr);
+      }
+      .left-sticky-box {
+        border-right: none;
+        border-bottom: 2px solid #fff;
+      }
+      .sticky-title {
+        font-size: 6vw;
+      }
+      .sticky-btn {
+        font-size: 3vw;
+      }
+    }
+  </style>
+  <script>
+    // Optional: Add JS for sticky title slide-down if needed
+    // For basic sticky, CSS is sufficient. For advanced scroll effects, use IntersectionObserver.
+  </script>
+</section>
+
+{% schema %}
+{
+  "name": "Custom Product Grid",
+  "settings": [
+    { "type": "image_picker", "id": "left_image", "label": "Left Box Image" },
+    { "type": "text", "id": "left_title", "label": "Left Box Title", "default": "NEW ARRIVALS" },
+    { "type": "text", "id": "left_button_text", "label": "Left Box Button Text", "default": "SHOP NOW" },
+    { "type": "url", "id": "left_button_link", "label": "Left Box Button Link" },
+    { "type": "select", "id": "left_focal_point", "label": "Left Image Focal Point", "options": [
+      { "value": "center", "label": "Center" },
+      { "value": "top", "label": "Top" },
+      { "value": "bottom", "label": "Bottom" },
+      { "value": "left", "label": "Left" },
+      { "value": "right", "label": "Right" }
+    ], "default": "center" },
+    { "type": "product", "id": "product_1", "label": "Product 1" },
+    { "type": "product", "id": "product_2", "label": "Product 2" },
+    { "type": "product", "id": "product_3", "label": "Product 3" },
+    { "type": "product", "id": "product_4", "label": "Product 4" }
+  ]
+}
+{% endschema %}
