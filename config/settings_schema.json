@@ -1,6 +1,20 @@
 [
   {
     "name": "Theme settings",
-    "settings": []
+    "settings": [
+      {
+        "type": "color",
+        "id": "primary_color",
+        "label": "Primary color",
+        "default": "#111111"
+      },
+      {
+        "type": "font_picker",
+        "id": "main_font",
+        "label": "Main font",
+        "default": "work_sans_n4"
+      }
+    ]
   }
 ]
+

@@ -5,13 +5,25 @@
       <div class="sticky-content">
         <div class="sticky-image-wrapper">
           {%- if section.settings.left_image != blank -%}
-            <img 
-              src="{{ section.settings.left_image | image_url: width:800, height:1000 }}"
-              alt="{{ section.settings.left_title }}"
-              style="object-position: {{ section.settings.left_focal_point }};"
-              class="left-image"
-              width="800" height="1000"
-            />
+            {%- assign focal = section.settings.left_focal_point -%}
+{%- if focal == 'top' -%}
+  {%- assign focal_css = 'center top' -%}
+{%- elsif focal == 'bottom' -%}
+  {%- assign focal_css = 'center bottom' -%}
+{%- elsif focal == 'left' -%}
+  {%- assign focal_css = 'left center' -%}
+{%- elsif focal == 'right' -%}
+  {%- assign focal_css = 'right center' -%}
+{%- else -%}
+  {%- assign focal_css = 'center center' -%}
+{%- endif -%}
+<img 
+  src="{{ section.settings.left_image | image_url: width:800, height:1000 }}"
+  alt="{{ section.settings.left_title }}"
+  style="object-position: {{ focal_css }};"
+  class="left-image"
+  width="800" height="1000"
+/>
           {%- endif -%}
         </div>
         <div class="sticky-title-box">
@@ -26,7 +38,8 @@
     <!-- RIGHT PRODUCT GRID -->
     <div class="right-product-grid">
       {% for i in (1..4) %}
-        {% assign product = section.settings["product_" | append: i] %}
+        {% assign key = 'product_' | append: i %}
+        {% assign product = section.settings[key] %}
         {% if product != blank %}
           {% assign product_obj = all_products[product] %}
           <div class="product-card">
@@ -81,14 +94,15 @@
       background: #111;
     }
     .left-sticky-box {
-      position: relative;
-      padding: 0;
-      border-right: 2px solid #fff;
-      display: flex;
-      align-items: stretch;
-      min-height: 100vh;
-      background: #111;
-    }
+  position: relative;
+  padding: 0;
+  border-right: 2px solid #fff;
+  display: flex;
+  align-items: stretch;
+  min-height: 100vh;
+  background: #111;
+  z-index: 2;
+}
     .sticky-content {
       position: sticky;
       top: 0;
@@ -117,11 +131,35 @@
       border-bottom: 2px solid #fff;
     }
     .sticky-title-box {
-      padding: 32px 24px;
-      background: rgba(17,17,17,0.95);
-      border-top: 2px solid #fff;
-      text-align: left;
-    }
+  padding: 32px 24px;
+  background: rgba(17,17,17,0.95);
+  border-top: 2px solid #fff;
+  text-align: left;
+  position: sticky;
+  bottom: 0;
+  z-index: 3;
+}
+.sticky-btn {
+  display: inline-block;
+  color: #fff;
+  background: #111;
+  padding: 14px 32px;
+  font-weight: bold;
+  border-radius: 2px;
+  text-decoration: none;
+  font-size: 1.2vw;
+  border: 2px solid #fff;
+  margin-top: 18px;
+  margin-left: 0;
+  transition: background 0.18s, color 0.18s, box-shadow 0.18s;
+  opacity: 0.97;
+  box-shadow: 0 2px 16px 0 rgba(0,0,0,0.15);
+}
+.sticky-btn:hover {
+  background: #fff;
+  color: #111;
+  box-shadow: 0 4px 24px 0 rgba(0,0,0,0.22);
+}
     .sticky-title {
       color: #fff;
       font-size: 3vw;
@@ -147,14 +185,17 @@
       color: #fff;
     }
     .right-product-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      grid-template-rows: 1fr 1fr;
-      gap: 24px;
-      height: 100%;
-      padding: 24px 0;
-      background: #111;
-    }
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
+  gap: 24px;
+  box-sizing: border-box;
+  padding: 24px;
+  background: #111;
+  width: 100%;
+  height: auto;
+  overflow: visible;
+}
     .product-card {
       background: #111;
       border: 2px solid #fff;
@@ -271,9 +312,29 @@
     }
   </style>
   <script>
-    // Optional: Add JS for sticky title slide-down if needed
-    // For basic sticky, CSS is sufficient. For advanced scroll effects, use IntersectionObserver.
-  </script>
+// Slide-down effect for sticky title box on scroll
+(function() {
+  var stickyBox = document.querySelector('.sticky-title-box');
+  if (!stickyBox) return;
+  window.addEventListener('scroll', function() {
+    var rect = stickyBox.getBoundingClientRect();
+    if (rect.top < 60) {
+      stickyBox.classList.add('slide-down');
+    } else {
+      stickyBox.classList.remove('slide-down');
+    }
+  });
+})();
+</script>
+<style>
+.sticky-title-box.slide-down {
+  animation: slideDownSticky 0.5s cubic-bezier(.23,1.02,.41,.98);
+}
+@keyframes slideDownSticky {
+  from { transform: translateY(-60px); opacity: 0.2; }
+  to { transform: translateY(0); opacity: 1; }
+}
+</style>
 </section>
 
 {% schema %}
