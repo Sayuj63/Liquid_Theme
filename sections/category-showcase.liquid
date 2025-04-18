@@ -1,221 +1,264 @@
-<section class="category-showcase-section">
-  <div class="category-bg-scroll">
-    <div class="scroll-text">
-      {% for i in (1..8) %}
-        <span>TOPS</span>
-        <span>BOTTOMS</span>
-        <span>OUTERWEAR</span>
-      {% endfor %}
-    </div>
-  </div>
-  <div class="category-grid">
-    {% for i in (1..3) %}
-  {%- assign img_key = 'image_' | append: i -%}
-  {%- assign img = section.settings[img_key] -%}
-  {%- assign title_key = 'title_' | append: i -%}
-  {%- assign title = section.settings[title_key] -%}
-  {%- assign link_key = 'link_' | append: i -%}
-  {%- assign link = section.settings[link_key] -%}
-  {% if link != blank %}
-    <a class="category-col category-col-link" href="{{ link }}">
-      <div class="category-image-wrapper">
-        {%- if img != blank -%}
-          <img src="{{ img | image_url: width:800, height:1000 }}" alt="{{ title }}" class="category-image" width="800" height="1000" />
-        {%- endif -%}
-        <div class="category-overlay">
-          <span class="category-title">{{ title }}</span>
-          <span class="shop-now-btn">SHOP NOW ↗</span>
+{%- style -%}
+.category-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.5rem; /* Add spacing between category boxes */
+  background: #000;
+  padding: 2.5rem 1rem; /* Make section visually bigger */
+}
+
+.category-card {
+  position: relative;
+  aspect-ratio: 1.5;
+  overflow: hidden;
+  background: #000;
+  border: 1px solid #fff; /* Thin white border */
+  border-radius: 0.5rem; /* Optional: slightly rounded corners for modern look */
+  box-sizing: border-box;
+}
+
+.category-card__link {
+  display: block;
+  height: 100%;
+  color: #fff;
+  text-decoration: none;
+  position: relative;
+}
+
+.category-card__image-wrapper {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+}
+
+.category-card__image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 1.2s cubic-bezier(0.215, 0.61, 0.355, 1);
+  filter: brightness(0.8);
+}
+
+.category-card:hover .category-card__image {
+  transform: scale(1.1);
+}
+
+.category-card__content {
+  position: relative;
+  z-index: 2;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 2rem;
+  text-align: center;
+}
+
+.category-card__title {
+  font-size: clamp(2rem, 5vw, 4rem);
+  font-weight: 600;
+  text-transform: uppercase;
+  margin: 0;
+  letter-spacing: 0.05em;
+  position: relative;
+  color: #fff;
+}
+
+.category-card__flowing-text {
+  position: absolute;
+  white-space: nowrap;
+  font-size: clamp(8rem, 15vw, 12rem);
+  font-weight: 800;
+  text-transform: uppercase;
+  opacity: 0.1;
+  color: #fff;
+  animation: flowText 20s linear infinite;
+  pointer-events: none;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  will-change: transform;
+}
+
+.category-card__shop-now {
+  margin-top: 1rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  font-size: 0.875rem;
+  font-weight: 500;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: all 0.6s cubic-bezier(0.215, 0.61, 0.355, 1);
+}
+
+.category-card__arrow {
+  display: inline-block;
+  margin-left: 0.5rem;
+  transition: transform 0.3s ease;
+}
+
+.category-card:hover .category-card__shop-now {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.category-card:hover .category-card__arrow {
+  transform: translateX(5px);
+}
+
+@keyframes flowText {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+@media screen and (min-width: 750px) {
+  .category-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2rem; /* More spacing between boxes on larger screens */
+    padding: 3rem 2rem;
+  }
+}
+
+@media screen and (min-width: 990px) {
+  .category-grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2.5rem;
+    padding: 4rem 2rem;
+  }
+}
+{%- endstyle -%}
+
+<div class="category-grid">
+  {%- for block in section.blocks -%}
+    <div class="category-card">
+      {%- if block.settings.link != blank -%}
+        <a href="{{ block.settings.link }}" class="category-card__link">
+      {%- endif -%}
+        <div class="category-card__image-wrapper">
+          {%- if block.settings.image -%}
+            <img
+              srcset="{%- if block.settings.image.width >= 165 -%}{{ block.settings.image | image_url: width: 165 }} 165w,{%- endif -%}
+                {%- if block.settings.image.width >= 360 -%}{{ block.settings.image | image_url: width: 360 }} 360w,{%- endif -%}
+                {%- if block.settings.image.width >= 535 -%}{{ block.settings.image | image_url: width: 535 }} 535w,{%- endif -%}
+                {%- if block.settings.image.width >= 750 -%}{{ block.settings.image | image_url: width: 750 }} 750w,{%- endif -%}
+                {{ block.settings.image | image_url }} {{ block.settings.image.width }}w"
+              src="{{ block.settings.image | image_url: width: 533 }}"
+              sizes="(min-width: 1200px) 33vw, (min-width: 750px) 50vw, 100vw"
+              alt="{{ block.settings.title | default: 'Category Image' | escape }}"
+              loading="lazy"
+              class="category-card__image"
+              width="{{ block.settings.image.width }}"
+              height="{{ block.settings.image.height }}"
+            >
+          {%- else -%}
+            {{ 'lifestyle-1' | placeholder_svg_tag: 'category-card__image placeholder' }}
+          {%- endif -%}
         </div>
-      </div>
-    </a>
-  {% else %}
-    <div class="category-col">
-      <div class="category-image-wrapper">
-        {%- if img != blank -%}
-          <img src="{{ img | image_url: width:800, height:1000 }}" alt="{{ title }}" class="category-image" width="800" height="1000" />
-        {%- endif -%}
-        <div class="category-overlay">
-          <span class="category-title">{{ title }}</span>
+
+        <div class="category-card__content">
+          <div class="category-card__flowing-text">{{ block.settings.title }}</div>
+          <h2 class="category-card__title">{{ block.settings.title }}</h2>
+          {%- if block.settings.link != blank -%}
+            <div class="category-card__shop-now">
+              Shop Now <span class="category-card__arrow">→</span>
+            </div>
+          {%- endif -%}
         </div>
-      </div>
+      {%- if block.settings.link != blank -%}
+        </a>
+      {%- endif -%}
     </div>
-  {% endif %}
-{% endfor %}
-  </div>
-  <style>
-    .category-showcase-section {
-      position: relative;
-      width: 100vw;
-      min-height: 380px;
-      background: #111;
-      overflow: hidden;
-      border: 2px solid #fff;
-      margin: 0;
-      padding: 0;
-    }
-    .category-bg-scroll {
-      position: absolute;
-      top: 0; left: 0; right: 0; bottom: 0;
-      width: 100%;
-      height: 100%;
-      z-index: 0;
-      overflow: hidden;
-      pointer-events: none;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-    .scroll-text {
-      display: flex;
-      align-items: center;
-      height: 100%;
-      font-size: 7vw;
-      font-weight: 900;
-      color: #fff;
-      opacity: 0.09;
-      white-space: nowrap;
-      letter-spacing: 0.04em;
-      text-transform: uppercase;
-      font-family: 'Montserrat', 'Arial Black', Arial, sans-serif;
-      user-select: none;
-      animation: scroll-bg-text 24s linear infinite;
-    }
-    .scroll-text span {
-      margin: 0 2vw;
-      display: inline-block;
-    }
-    @keyframes scroll-bg-text {
-      0% { transform: translateX(0); }
-      100% { transform: translateX(-50%); }
-    }
-    .category-grid {
-      position: relative;
-      display: grid;
-      grid-template-columns: 1fr 1fr 1fr;
-      gap: 0;
-      z-index: 1;
-      width: 100%;
-      min-height: 340px;
-      border-collapse: separate;
-    }
-    .category-col {
-      position: relative;
-      background: #111;
-      border-right: 2px solid #fff;
-      display: flex;
-      align-items: flex-end;
-      justify-content: center;
-      overflow: hidden;
-      min-height: 340px;
-      transition: z-index 0.2s;
-    }
-    .category-col:last-child {
-      border-right: none;
-    }
-    .category-image-wrapper {
-      position: relative;
-      width: 100%;
-      height: 100%;
-      min-height: 340px;
-      display: flex;
-      align-items: flex-end;
-      justify-content: center;
-      overflow: hidden;
-    }
-    .category-image {
-      width: 100%;
-      height: 340px;
-      object-fit: cover;
-      opacity: 0.72;
-      transition: transform 0.38s cubic-bezier(.23,1.02,.41,.98), opacity 0.38s;
-      filter: grayscale(0.2) brightness(0.85);
-      z-index: 1;
-      pointer-events: none;
-    }
-    .category-overlay {
-      position: absolute;
-      left: 0; right: 0; bottom: 0;
-      padding: 28px 24px 20px 24px;
-      display: flex;
-      flex-direction: row;
-      align-items: flex-end;
-      justify-content: space-between;
-      width: 100%;
-      z-index: 2;
-      background: linear-gradient(0deg, rgba(17,17,17,0.85) 70%, rgba(17,17,17,0) 100%);
-    }
-    .category-title {
-      color: #fff;
-      font-size: 1.5vw;
-      font-weight: bold;
-      letter-spacing: 0.03em;
-      text-shadow: 0 2px 8px rgba(0,0,0,0.18);
-      opacity: 0.85;
-      text-transform: uppercase;
-      font-family: 'Montserrat', 'Arial Black', Arial, sans-serif;
-      align-self: flex-end;
-    }
-    .shop-now-btn {
-      display: inline-block;
-      color: #111;
-      background: #fff;
-      padding: 10px 24px;
-      font-weight: bold;
-      border-radius: 2px;
-      text-decoration: none;
-      font-size: 1vw;
-      border: 2px solid #fff;
-      margin-left: 12px;
-      transition: background 0.18s, color 0.18s;
-      opacity: 0.97;
-      align-self: flex-end;
-    }
-    .category-col:hover .category-image {
-      opacity: 1;
-      transform: scale(1.07) translateY(-12px);
-      filter: grayscale(0) brightness(1);
-      z-index: 3;
-    }
-    .category-col:hover .shop-now-btn {
-      background: #111;
-      color: #fff;
-      border: 2px solid #fff;
-    }
-    .category-col:hover {
-      z-index: 10;
-      box-shadow: 0 6px 44px 0 rgba(0,0,0,0.22);
-    }
-    @media (max-width: 900px) {
-      .category-grid {
-        grid-template-columns: 1fr;
-        grid-template-rows: repeat(3, 1fr);
-      }
-      .category-title {
-        font-size: 6vw;
-      }
-      .shop-now-btn {
-        font-size: 3vw;
-      }
-      .category-image {
-        height: 40vw;
-      }
-    }
-  </style>
-</section>
+  {%- endfor -%}
+</div>
 
 {% schema %}
 {
-  "name": "Category Showcase",
-  "settings": [
-    { "type": "image_picker", "id": "image_1", "label": "Tops Image" },
-    { "type": "text", "id": "title_1", "label": "Tops Title", "default": "TOPS" },
-    { "type": "url", "id": "link_1", "label": "Tops Link" },
-    { "type": "image_picker", "id": "image_2", "label": "Bottoms Image" },
-    { "type": "text", "id": "title_2", "label": "Bottoms Title", "default": "BOTTOMS" },
-    { "type": "url", "id": "link_2", "label": "Bottoms Link" },
-    { "type": "image_picker", "id": "image_3", "label": "Outerwear Image" },
-    { "type": "text", "id": "title_3", "label": "Outerwear Title", "default": "OUTERWEAR" },
-    { "type": "url", "id": "link_3", "label": "Outerwear Link" }
+  "name": "Category Grid",
+  "max_blocks": 6,
+  "blocks": [
+    {
+      "type": "category",
+      "name": "Category",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Category Title",
+          "default": "Category"
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Category Image"
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Category Link"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Category Grid",
+      "blocks": [
+        {
+          "type": "category",
+          "settings": {
+            "title": "TOPS"
+          }
+        },
+        {
+          "type": "category",
+          "settings": {
+            "title": "BOTTOMS"
+          }
+        },
+        {
+          "type": "category",
+          "settings": {
+            "title": "OUTERWEAR"
+          }
+        }
+      ]
+    }
   ]
 }
 {% endschema %}
+
+{% javascript %}
+document.addEventListener('DOMContentLoaded', function () {
+  const categoryItems = document.querySelectorAll('.category-card');
+
+  categoryItems.forEach(item => {
+    const backgroundText = item.querySelector('.category-card__flowing-text');
+    if (!backgroundText) return;
+
+    item.addEventListener('mouseenter', () => {
+      backgroundText.style.animation = 'none';
+    });
+
+    item.addEventListener('mousemove', (e) => {
+      const rect = item.getBoundingClientRect();
+      const x = (e.clientX - rect.left) / rect.width - 0.5;
+      const y = (e.clientY - rect.top) / rect.height - 0.5;
+
+      backgroundText.style.transform = `translate(${x * 20}px, ${y * 20}px)`;
+    });
+
+    item.addEventListener('mouseleave', () => {
+      backgroundText.style.transform = 'translateY(-50%)';
+      backgroundText.style.animation = 'flowText 20s linear infinite';
+    });
+  });
+});
+{% endjavascript %}

@@ -13,9 +13,11 @@
       {%- endif -%}
       <div class="image-overlay">
         <h2 class="image-title">{{ section.settings.left_title }}</h2>
-        {%- if section.settings.left_button_text and section.settings.left_button_link -%}
-          <a class="buy-btn" href="{{ section.settings.left_button_link }}">{{ section.settings.left_button_text }}</a>
-        {%- endif -%}
+                {%- if section.settings.left_button_link -%}
+                  <a href="{{ section.settings.left_button_link }}" class="image-dot" aria-label="View more"></a>
+                {%- else -%}
+                  <span class="image-dot"></span>
+                {%- endif -%}
       </div>
     </div>
     <!-- RIGHT IMAGE BOX -->
@@ -31,9 +33,11 @@
       {%- endif -%}
       <div class="image-overlay">
         <h2 class="image-title">{{ section.settings.right_title }}</h2>
-        {%- if section.settings.right_button_text and section.settings.right_button_link -%}
-          <a class="buy-btn" href="{{ section.settings.right_button_link }}">{{ section.settings.right_button_text }}</a>
-        {%- endif -%}
+                {%- if section.settings.right_button_link -%}
+                  <a href="{{ section.settings.right_button_link }}" class="image-dot" aria-label="View more"></a>
+                {%- else -%}
+                  <span class="image-dot"></span>
+                {%- endif -%}
       </div>
     </div>
   </div>
@@ -94,22 +98,28 @@
       letter-spacing: -0.03em;
       text-shadow: 0 2px 8px rgba(0,0,0,0.18);
     }
-    .buy-btn {
-      display: inline-block;
-      color: #111;
-      background: #fff;
-      padding: 12px 32px;
-      font-weight: bold;
-      border-radius: 2px;
-      text-decoration: none;
-      font-size: 1.1vw;
-      border: 2px solid #fff;
-      transition: background 0.18s, color 0.18s;
-    }
-    .buy-btn:hover {
-      background: #111;
-      color: #fff;
-    }
+    .image-dot {
+  display: block;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: #fff;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.22);
+  border: 2px solid #fff;
+  margin: 0 auto;
+  position: relative;
+  z-index: 3;
+  cursor: pointer;
+  transition: background 0.18s, box-shadow 0.18s, border 0.18s;
+}
+.image-dot:hover, .image-dot:focus {
+  background: #e6e6e6;
+  box-shadow: 0 4px 14px rgba(0,0,0,0.28);
+  border: 2px solid #111;
+}
+.image-dot:active {
+  background: #f5f5f5;
+}
     @media (max-width: 900px) {
       .two-image-grid {
         grid-template-columns: 1fr;

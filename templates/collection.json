@@ -1,0 +1,10 @@
+{
+  "name": "Collection",
+  "sections": {
+    "main": {
+      "type": "axiom-collection-grid",
+      "settings": {}
+    }
+  },
+  "order": ["main"]
+}

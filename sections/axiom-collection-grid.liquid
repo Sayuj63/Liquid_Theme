@@ -1,0 +1,157 @@
+<section class="axiom-collection-grid-section">
+  <!-- CATEGORY NAVIGATION BAR -->
+  <nav class="axiom-category-nav">
+    <ul>
+      <li><a href="/collections/all" class="{% if collection.handle == 'all' %}active{% endif %}">ALL</a></li>
+      {% for link in linklists.main-menu.links %}
+        {% if link.type == 'collection_link' %}
+          <li><a href="{{ link.url }}" class="{% if collection.handle == link.object.handle %}active{% endif %}">{{ link.title | upcase }}</a></li>
+        {% endif %}
+      {% endfor %}
+    </ul>
+  </nav>
+
+  <!-- COLLECTION GRID -->
+  <div class="axiom-collection-grid">
+    {% for product in collection.products %}
+      <div class="axiom-collection-card">
+        <a href="{{ product.url }}" class="axiom-collection-image-link">
+          {% if product.featured_image %}
+            <img src="{{ product.featured_image | image_url: width:600, height:800 }}" alt="{{ product.title }}" class="axiom-collection-image" width="600" height="800" />
+          {% endif %}
+        </a>
+        <div class="axiom-collection-info">
+          <div class="axiom-collection-title">{{ product.title }}</div>
+          <div class="axiom-collection-description">{{ product.description | truncate: 80 }}</div>
+          <div class="axiom-collection-price">
+            {% if product.price %}
+              {{ product.price | money }}
+            {% endif %}
+          </div>
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+
+  <style>
+    html, body {
+      overflow-x: hidden !important;
+      width: 100%;
+      box-sizing: border-box;
+    }
+    .axiom-collection-grid-section {
+      background: #111;
+      width: 100%;
+      min-height: 100vh;
+      padding: 0;
+      margin: 0;
+      box-sizing: border-box;
+    }
+    .axiom-category-nav {
+      width: 100%;
+      background: #222;
+      padding: 0 0 0 0;
+      border-bottom: 2px solid #fff;
+      margin-bottom: 0;
+    }
+    .axiom-category-nav ul {
+      display: flex;
+      flex-direction: row;
+      gap: 16px;
+      list-style: none;
+      margin: 0;
+      padding: 0 2vw;
+      align-items: center;
+      height: 56px;
+    }
+    .axiom-category-nav a {
+      color: #fff;
+      font-size: 1.4vw;
+      font-weight: 900;
+      text-decoration: none;
+      opacity: 0.85;
+      letter-spacing: 0.02em;
+      transition: opacity 0.18s, border 0.18s;
+      padding: 0 8px;
+      text-transform: uppercase;
+      border-bottom: 2px solid transparent;
+      line-height: 56px;
+      display: block;
+    }
+    .axiom-category-nav a.active, .axiom-category-nav a:hover {
+      opacity: 1;
+      border-bottom: 2px solid #fff;
+    }
+    .axiom-collection-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 0;
+      border-left: 2px solid #fff;
+      border-right: 2px solid #fff;
+      border-bottom: 2px solid #fff;
+      box-sizing: border-box;
+      width: 100%;
+      margin: 0 auto;
+      background: #111;
+    }
+    .axiom-collection-card {
+      background: #111;
+      border-right: 2px solid #fff;
+      border-bottom: 2px solid #fff;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      position: relative;
+      min-height: 340px;
+      overflow: hidden;
+      transition: box-shadow 0.2s;
+    }
+    .axiom-collection-card:nth-child(3n) {
+      border-right: none;
+    }
+    .axiom-collection-image-link {
+      display: block;
+      width: 100%;
+      height: 340px;
+      overflow: hidden;
+      position: relative;
+    }
+    .axiom-collection-image {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      position: absolute;
+      top: 0; left: 0;
+    }
+    .axiom-collection-info {
+      color: #fff;
+      padding: 16px 18px 12px 18px;
+      background: #111;
+      min-height: 80px;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+    }
+    .axiom-collection-title {
+      font-size: 1.15em;
+      font-weight: bold;
+      margin-bottom: 4px;
+      color: #fff;
+    }
+    .axiom-collection-description {
+      font-size: 0.95em;
+      opacity: 0.7;
+      color: #fff;
+    }
+    @media (max-width: 900px) {
+      .axiom-collection-grid {
+        grid-template-columns: 1fr;
+      }
+      .axiom-category-nav ul {
+        gap: 4vw;
+        font-size: 3vw;
+      }
+    }
+  </style>
+</section>

@@ -1,7 +1,23 @@
 {
   "sections": {
     "herosection": { "type": "herosection" },
-    "category-showcase": { "type": "category-showcase" },
+    "category-showcase": {
+      "type": "category-showcase",
+      "blocks": [
+        {
+          "type": "category",
+          "settings": { "title": "TOPS" }
+        },
+        {
+          "type": "category",
+          "settings": { "title": "BOTTOMS" }
+        },
+        {
+          "type": "category",
+          "settings": { "title": "OUTERWEAR" }
+        }
+      ]
+    },
     "custom-product-grid": { "type": "custom-product-grid" },
     "community-instagram-gallery": { "type": "community-instagram-gallery" },
     "two-image-buy-section": { "type": "two-image-buy-section" },
