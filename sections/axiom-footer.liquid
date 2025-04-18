@@ -1,9 +1,21 @@
 {%- style -%}
+html, body {
+  max-width: 100vw !important;
+  overflow-x: hidden !important;
+  box-sizing: border-box !important;
+}
+.footer, .footer * {
+  box-sizing: border-box !important;
+  max-width: 100vw !important;
+  overflow-x: hidden !important;
+}
 .footer {
   background-color: #000;
   color: #fff;
   padding-top: 50px;
   position: relative;
+  max-width: 100vw;
+  overflow-x: hidden;
 }
 
 .footer-top {
@@ -210,25 +222,37 @@
 }
 
 @media screen and (max-width: 767px) {
+  html, body {
+    max-width: 100vw !important;
+    overflow-x: hidden !important;
+  }
   .footer-hero {
     height: 60vh;
   }
-  
   .footer-navigation {
     grid-template-columns: 1fr;
+    max-width: 100vw;
+    overflow-x: hidden;
   }
-  
   .footer-bottom {
     flex-direction: column;
     align-items: flex-start;
     gap: 20px;
+    max-width: 100vw;
+    overflow-x: hidden;
   }
-  
   .footer-links {
     flex-direction: column;
     gap: 15px;
+    max-width: 100vw;
+    overflow-x: hidden;
+  }
+  .footer {
+    max-width: 100vw;
+    overflow-x: hidden;
   }
 }
+
 {%- endstyle -%}
 
 <footer class="footer">
@@ -246,6 +270,8 @@
         alt="{{ section.settings.hero_title | escape }}"
         loading="lazy"
         class="footer-hero-image"
+        width="{{ section.settings.hero_image.width }}"
+        height="{{ section.settings.hero_image.height }}"
       >
     {%- endif -%}
     
