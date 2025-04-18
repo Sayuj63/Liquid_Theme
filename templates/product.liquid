@@ -1,0 +1,282 @@
+{%- style -%}
+.product-checkout-section {
+  display: grid;
+  grid-template-columns: 1fr 1.2fr;
+  min-height: 100vh;
+  background: #111;
+  color: #fff;
+}
+.product-checkout-details {
+  padding: 3rem 2rem 2rem 4vw;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  max-width: 600px;
+}
+.product-checkout-title {
+  font-size: 3rem;
+  font-weight: 800;
+  margin-bottom: 1.5rem;
+  line-height: 1.1;
+  letter-spacing: -0.03em;
+}
+.product-checkout-description {
+  font-size: 1.2rem;
+  margin-bottom: 2rem;
+  color: #f1f1f1;
+  font-weight: 500;
+}
+.product-checkout-meta {
+  display: flex;
+  gap: 1.5rem;
+  font-size: 1rem;
+  margin-bottom: 2rem;
+  color: #bdbdbd;
+}
+.product-checkout-options {
+  margin-bottom: 2rem;
+}
+.product-checkout-options label {
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  display: block;
+}
+.product-checkout-sizes,
+.product-checkout-colors {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 1.2rem;
+}
+.product-checkout-size-btn,
+.product-checkout-color-btn {
+  border: 1px solid #fff;
+  background: none;
+  color: #fff;
+  padding: 0.5rem 1.2rem;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  border-radius: 2px;
+  transition: background 0.2s, color 0.2s;
+}
+.product-checkout-size-btn.active,
+.product-checkout-color-btn.active {
+  background: #fff;
+  color: #111;
+}
+.product-checkout-price {
+  font-size: 2.5rem;
+  font-weight: 800;
+  margin-bottom: 1.5rem;
+}
+.product-checkout-shipping {
+  font-size: 0.98rem;
+  color: #bdbdbd;
+  margin-bottom: 1.5rem;
+}
+.product-checkout-actions {
+  display: flex;
+  gap: 1rem;
+}
+.product-checkout-add-btn {
+  background: #fff;
+  color: #111;
+  font-weight: 800;
+  padding: 1rem 2.5rem;
+  border: none;
+  border-radius: 2px;
+  font-size: 1.1rem;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+}
+.product-checkout-add-btn:hover {
+  background: #e5e5e5;
+}
+.product-checkout-guide {
+  margin-left: auto;
+  color: #fff;
+  font-size: 1rem;
+  text-decoration: underline;
+  cursor: pointer;
+  align-self: flex-end;
+}
+.product-checkout-image-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #000;
+  min-height: 100vh;
+}
+.product-checkout-image {
+  max-width: 100%;
+  max-height: 90vh;
+  object-fit: contain;
+}
+@media (max-width: 900px) {
+  .product-checkout-section {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    background: #111;
+  }
+  .product-checkout-image-container {
+    order: 1;
+    width: 100vw;
+    min-height: 40vw;
+    padding: 0;
+    background: #111;
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+  }
+  .product-checkout-image {
+    width: 100vw;
+    max-width: 100vw;
+    max-height: 55vh;
+    object-fit: cover;
+    border-radius: 0;
+  }
+  .product-checkout-details {
+    order: 2;
+    padding: 2.2rem 1.1rem 7rem 1.1rem;
+    max-width: 100vw;
+    background: #111;
+  }
+  .product-checkout-meta {
+    font-size: 0.97rem;
+    margin-bottom: 1.2rem;
+    color: #bdbdbd;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+  }
+  .product-checkout-title {
+    font-size: 2.3rem;
+    font-weight: 900;
+    margin-bottom: 1.2rem;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+  }
+  .product-checkout-description {
+    font-size: 1.08rem;
+    margin-bottom: 1.5rem;
+    color: #fff;
+    font-weight: 600;
+    text-shadow: none;
+  }
+  .product-checkout-options label {
+    font-size: 1.05rem;
+    font-weight: 800;
+    margin-bottom: 0.5rem;
+  }
+  .product-checkout-sizes,
+  .product-checkout-colors {
+    gap: 0.3rem;
+    margin-bottom: 1.1rem;
+  }
+  .product-checkout-size-btn,
+  .product-checkout-color-btn {
+    font-size: 1.05rem;
+    font-weight: 700;
+    padding: 0.7rem 1.3rem;
+    border-radius: 3px;
+    border-width: 2px;
+    margin-bottom: 0.2rem;
+  }
+  .product-checkout-price {
+    font-size: 2.2rem;
+    font-weight: 900;
+    margin-bottom: 1.2rem;
+    margin-top: 1.5rem;
+  }
+  .product-checkout-shipping {
+    font-size: 0.99rem;
+    color: #bdbdbd;
+    margin-bottom: 1.3rem;
+    font-weight: 600;
+  }
+  .product-checkout-actions {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    background: #111;
+    padding: 1.2rem 1.1rem 1.2rem 1.1rem;
+    z-index: 100;
+    box-shadow: 0 -2px 24px 0 rgba(0,0,0,0.25);
+  }
+  .product-checkout-add-btn {
+    width: 100%;
+    font-size: 1.18rem;
+    padding: 1.2rem 0;
+    border-radius: 4px;
+    font-weight: 900;
+    margin-bottom: 0;
+    background: #fff;
+    color: #111;
+    box-shadow: 0 2px 8px 0 rgba(0,0,0,0.07);
+  }
+  .product-checkout-guide {
+    font-size: 1.01rem;
+    margin-left: 0;
+    margin-top: 1.1rem;
+    color: #fff;
+    text-align: left;
+    text-decoration: underline;
+    font-weight: 600;
+  }
+}
+
+{%- endstyle -%}
+
+<div class="product-checkout-section">
+  <div class="product-checkout-details">
+    <div class="product-checkout-meta">
+      <span>SHOP</span> /
+      <span>BOTTOMS</span> /
+      <span>{{ product.title | upcase }}</span>
+    </div>
+    <div class="product-checkout-title">{{ product.title }}</div>
+    <div class="product-checkout-description">{{ product.description }}</div>
+    <div class="product-checkout-meta">
+      <span>MATERIALS</span>
+      <span>CARE</span>
+      <span>SHIPPING</span>
+    </div>
+    <form method="post" action="/cart/add">
+      <div class="product-checkout-options">
+        <label>Size</label>
+        <div class="product-checkout-sizes">
+          {% for variant in product.variants %}
+            <button type="button" class="product-checkout-size-btn{% if forloop.first %} active{% endif %}">{{ variant.option1 }}</button>
+          {% endfor %}
+        </div>
+        <label>Color</label>
+        <div class="product-checkout-colors">
+          {% assign color_options = product.options_with_values | where: 'name', 'Color' | first %}
+          {% for color in color_options.values %}
+            <button type="button" class="product-checkout-color-btn{% if forloop.first %} active{% endif %}">{{ color }}</button>
+          {% endfor %}
+        </div>
+      </div>
+      <div class="product-checkout-guide">SIZE GUIDE ↗</div>
+      <div class="product-checkout-price">{{ product.price | money }}</div>
+      <div class="product-checkout-shipping">SHIPPING CALCULATED AT CHECKOUT</div>
+      <div class="product-checkout-actions">
+        <button type="submit" class="product-checkout-add-btn">ADD TO BAG</button>
+      </div>
+    </form>
+  </div>
+  <div class="product-checkout-image-container">
+    <img src="{{ product.featured_image | image_url: width: 900, height: 1100 }}" alt="{{ product.title }}" class="product-checkout-image" width="900" height="1100" />
+  </div>
+</div>
+
+{%- comment -%}
+  Render additional sections below the product (recommendations, related journal, Instagram, footer, etc)
+{%- endcomment -%}
+{% section 'product-recommendations' %}
+
+{% section 'community-instagram-gallery' %}
+{% section 'axiom-footer' %}
