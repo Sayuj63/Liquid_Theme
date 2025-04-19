@@ -1,0 +1,229 @@
+{%- comment -%}
+  Minimalistic header: logo left, changing text center, 3 options right (Contact, Search, Account/Cart), bordered, matching site aesthetic.
+{%- endcomment -%}
+
+<header class="axiom-header">
+  <div class="header-logo">
+    <!-- Replace with your logo image if needed -->
+    <a href="/" aria-label="Home">
+      {%- if section.settings.logo != blank -%}
+        {%- if section.settings.logo != blank -%}
+  <img src="{{ section.settings.logo | image_url: width: 60 }}" alt="Logo" class="logo-img" width="60" height="60" style="border:2px solid red; background: white;" />
+{%- else -%}
+  <!-- Default SVG logo if not set -->
+  <svg class="logo-img" width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <rect width="48" height="48" rx="8" fill="#fff"/>
+    <text x="24" y="29" text-anchor="middle" font-size="16" fill="#000" font-family="Arial, sans-serif" font-weight="bold">LOGO</text>
+  </svg>
+{%- endif -%}
+      {%- else -%}
+        <!-- Default SVG logo if not set -->
+        <svg class="logo-img" width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect width="48" height="48" rx="8" fill="#fff"/>
+          <text x="24" y="29" text-anchor="middle" font-size="16" fill="#000" font-family="Arial, sans-serif" font-weight="bold">LOGO</text>
+        </svg>
+      {%- endif -%}
+    </a>
+  </div>
+  <div class="header-center">
+    <span id="changing-text">MOVE YOUR WAY.</span>
+  </div>
+  <div class="header-actions">
+    <a href="/pages/contact" class="header-action" title="Contact">
+      <span class="header-action-label">CONTACT</span>
+    </a>
+    <a href="#search" class="header-action" title="Search">
+      <svg class="header-action-icon" width="24" height="24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+    </a>
+    <a href="/account" class="header-action" title="Account">
+      <svg class="header-action-icon" width="24" height="24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 8-4 8-4s8 0 8 4"/></svg>
+    </a>
+    <a href="/cart" class="header-action" title="Cart">
+      <svg class="header-action-icon" width="24" height="24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
+      <span class="header-cart-count">{{ cart.item_count }}</span>
+    </a>
+  </div>
+</header>
+
+{%- style -%}
+.axiom-header {
+  width: 100vw;
+  background: #000;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 2vw;
+  min-height: 64px;
+  box-sizing: border-box;
+  border-bottom: 1px solid #222;
+  font-family: inherit;
+  z-index: 100;
+}
+.header-logo {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+}
+.logo-img {
+  height: 48px;
+  width: auto;
+  display: block;
+  filter: brightness(0) invert(1);
+}
+.header-center {
+  flex: 1 1 auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 1.5rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  min-width: 200px;
+}
+.header-actions {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: stretch;
+  gap: 0;
+}
+.header-action {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 1.5rem;
+  border-left: 1px solid #fff;
+  background: transparent;
+  color: #fff;
+  text-decoration: none;
+  font-size: 1.15rem;
+  font-weight: 600;
+  height: 64px;
+  transition: background 0.18s;
+  position: relative;
+}
+.header-action:first-child {
+  border-left: none;
+}
+.header-action:last-child {
+  border-right: 1px solid #fff;
+}
+.header-action:hover, .header-action:focus {
+  background: #111;
+}
+.header-action-label {
+  letter-spacing: 0.04em;
+  font-size: 1.1rem;
+}
+.header-action-icon {
+  display: block;
+  margin: 0 auto;
+}
+.header-cart-count {
+  position: absolute;
+  top: 8px;
+  right: 12px;
+  background: #fff;
+  color: #000;
+  font-size: 1rem;
+  font-weight: 700;
+  border-radius: 2px;
+  padding: 0 5px;
+  min-width: 18px;
+  text-align: center;
+}
+@media (max-width: 700px) {
+  .axiom-header {
+    flex-direction: column;
+    align-items: stretch;
+    padding: 0.5rem 0.5rem 0 0.5rem;
+    min-height: unset;
+    border-bottom: 1px solid #222;
+  }
+  .header-logo {
+    justify-content: center;
+    margin-bottom: 0.3rem;
+  }
+  .logo-img {
+    height: 36px;
+    width: auto;
+    margin: 0 auto;
+    border-radius: 4px;
+  }
+  .header-center {
+    justify-content: center;
+    align-items: center;
+    font-size: 1.05rem;
+    min-width: unset;
+    margin-bottom: 0.2rem;
+    padding: 0.2rem 0;
+  }
+  .header-actions {
+    justify-content: space-between;
+    gap: 0.5rem;
+    padding: 0.2rem 0;
+  }
+  .header-action {
+    flex: 1 1 0;
+    padding: 0.6rem 0.3rem;
+    font-size: 1rem;
+    height: auto;
+    min-width: 0;
+    border-left: none;
+    border-right: none;
+    border-radius: 6px;
+    margin: 0 0.1rem;
+    background: #111;
+    color: #fff;
+  }
+  .header-action-label {
+    font-size: 1rem;
+  }
+  .header-action-icon {
+    width: 22px;
+    height: 22px;
+  }
+  .header-cart-count {
+    top: 2px;
+    right: 8px;
+    font-size: 0.95rem;
+    padding: 0 4px;
+    min-width: 14px;
+  }
+}
+{%- endstyle -%}
+
+<script>
+// Rotating text in header-center
+const phrases = [
+  "MOVE YOUR WAY.",
+  "FEATURED PRODUCTS",
+  "NEW ARRIVALS",
+  "LIMITLESS STYLE",
+  "FOLLOW AXIOM"
+];
+let idx = 0;
+setInterval(() => {
+  idx = (idx + 1) % phrases.length;
+  document.getElementById('changing-text').textContent = phrases[idx];
+}, 3500);
+</script>
+
+{% schema %}
+{
+  "name": "Axiom Header",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "logo",
+      "label": "Logo"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Minimalistic Header"
+    }
+  ]
+}
+{% endschema %}
