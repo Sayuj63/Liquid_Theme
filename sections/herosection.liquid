@@ -1,13 +1,440 @@
+{%- style -%}
+.hero-slideshow {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  background: #000;
+  overflow: hidden;
+}
+
+.slide {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  transition: opacity 1.5s ease;
+  background-size: cover;
+  background-position: center;
+  display: flex;
+  align-items: flex-end;
+  justify-content: flex-start;
+  padding: 0;
+}
+
+.slide.active {
+  opacity: 1;
+  z-index: 1;
+}
+
+.slide-content {
+  color: white;
+  width: 60%;
+  max-width: 800px;
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.8s ease, transform 0.8s ease;
+  transition-delay: 0.5s;
+  padding: 0 0 60px 80px;
+  text-align: left;
+}
+
+.slide.active .slide-content {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.slide-tag {
+  display: none;
+}
+
+.slide-title {
+  font-size: 120px;
+  font-weight: 700;
+  line-height: 1;
+  margin-bottom: 20px;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+}
+
+@media screen and (max-width: 768px) {
+  .slide-title {
+    font-size: 48px;
+  }
+
+  .slide-content {
+    width: 90%;
+    padding: 0 20px 100px 20px;
+    position: absolute;
+    bottom: 0;
+  }
+
+  .slide-description {
+    font-size: 16px;
+    margin-bottom: 20px;
+    max-width: 100%;
+  }
+
+  .thumbnails {
+    display: none !important;
+    visibility: hidden;
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  .shop-now-btn,
+  .slide-tag.button-style {
+    padding: 12px 30px;
+    font-size: 14px;
+    min-width: 160px;
+  }
+
+  .slide {
+    align-items: flex-end;
+    padding-bottom: 0;
+  }
+}
+
+.slide-description {
+  font-size: 18px;
+  line-height: 1.6;
+  margin-bottom: 25px;
+  color: rgba(255, 255, 255, 0.8);
+  max-width: 80%;
+}
+
+.shop-now-btn {
+  display: inline-block;
+  padding: 15px 40px;
+  background: #fff;
+  color: #000;
+  text-decoration: none;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  font-size: 16px;
+  font-weight: bold;
+  transition: all 0.3s ease;
+  border: 2px solid #fff;
+  min-width: 200px;
+  text-align: center;
+}
+
+.shop-now-btn:hover {
+  background: #000;
+  color: #fff;
+  border-color: #fff;
+}
+
+.slide-tag.button-style {
+  display: inline-block;
+  padding: 15px 40px;
+  background: transparent;
+  color: #fff;
+  text-decoration: none;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  font-size: 16px;
+  font-weight: bold;
+  transition: all 0.3s ease;
+  border: 2px solid #fff;
+  min-width: 200px;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.slide-tag.button-style:hover {
+  background: #000;
+  color: #fff;
+  border-color: #fff;
+}
+
+.thumbnails {
+  position: absolute;
+  bottom: 40px;
+  right: 40px;
+  display: flex;
+  justify-content: flex-end;
+  gap: 15px;
+  z-index: 10;
+}
+
+.thumbnail {
+  width: 140px;
+  height: 90px;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  border: 2px solid rgba(255, 255, 255, 0.5);
+  transition: all 0.3s ease;
+}
+
+.thumbnail:hover {
+  border-color: #fff;
+}
+
+.thumbnail img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: all 0.5s ease;
+  filter: brightness(0.5);
+}
+
+.thumbnail.active {
+  border-color: #fff;
+}
+
+.thumbnail.active img {
+  filter: brightness(0.8);
+}
+
+.thumbnail::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 0%;
+  height: 3px;
+  background: white;
+  transition: width 5s linear;
+}
+
+.thumbnail.active::after {
+  width: 100%;
+}
+
+.slide-transition-overlay {
+  display: none;
+}
+
+.slide-transition-overlay.animate,
+.slide-transition-overlay.animate-out {
+  display: none;
+}
+{%- endstyle -%}
+
+<div class="hero-slideshow">
+  <div class="slide active" style="background-image: url('{{ section.settings.image_1 | img_url: 'master' }}')">
+    <div class="slide-content">
+      <div class="slide-tag">{{ section.settings.tag_1 }}</div>
+      <h1 class="slide-title">FEATURED<br>PRODUCTS</h1>
+      <p class="slide-description">Shop our best sellers</p>
+      {% if section.settings.button_link_1 != blank %}
+        <a href="{{ section.settings.button_link_1 }}" class="shop-now-btn">SHOP NOW</a>
+      {% else %}
+        <a href="/collections/all" class="shop-now-btn">SHOP NOW</a>
+      {% endif %}
+    </div>
+  </div>
+
+  <div class="slide" style="background-image: url('{{ section.settings.image_2 | img_url: 'master' }}')">
+    <div class="slide-content">
+      <div class="slide-tag {% if section.settings.tag_2 == 'OUTERWEAR' %}button-style{% endif %}">{{ section.settings.tag_2 }}</div>
+      <h1 class="slide-title">{{ section.settings.title_2 }}</h1>
+      <p class="slide-description">{{ section.settings.description_2 }}</p>
+      {% if section.settings.button_link_2 != blank %}
+        <a href="{{ section.settings.button_link_2 }}" class="shop-now-btn">SHOP NOW</a>
+      {% else %}
+        <a href="/collections/all" class="shop-now-btn">SHOP NOW</a>
+      {% endif %}
+    </div>
+  </div>
+
+  <div class="slide" style="background-image: url('{{ section.settings.image_3 | img_url: 'master' }}')">
+    <div class="slide-content">
+      <div class="slide-tag {% if section.settings.tag_3 == 'OUTERWEAR' %}button-style{% endif %}">{{ section.settings.tag_3 }}</div>
+      <h1 class="slide-title">{{ section.settings.title_3 }}</h1>
+      <p class="slide-description">{{ section.settings.description_3 }}</p>
+      {% if section.settings.button_link_3 != blank %}
+        <a href="{{ section.settings.button_link_3 }}" class="shop-now-btn">SHOP NOW</a>
+      {% else %}
+        <a href="/collections/all" class="shop-now-btn">SHOP NOW</a>
+      {% endif %}
+    </div>
+  </div>
+
+  <div class="thumbnails">
+    <div class="thumbnail active">
+      <img src="{{ section.settings.image_1 | img_url: '280x180', crop: 'center' }}" alt="Slide 1" width="280" height="180">
+    </div>
+    <div class="thumbnail">
+      <img src="{{ section.settings.image_2 | img_url: '280x180', crop: 'center' }}" alt="Slide 2" width="280" height="180">
+    </div>
+    <div class="thumbnail">
+      <img src="{{ section.settings.image_3 | img_url: '280x180', crop: 'center' }}" alt="Slide 3" width="280" height="180">
+    </div>
+  </div>
+</div>
+
+<script>
+  class HeroSlideshow {
+    constructor() {
+      this.slides = document.querySelectorAll('.slide');
+      this.thumbnails = document.querySelectorAll('.thumbnail');
+      this.currentSlide = 0;
+      this.slideInterval = 6000; // 6 seconds per slide
+      this.autoplayInterval = null;
+      this.isAnimating = false;
+
+      this.init();
+    }
+
+    init() {
+      this.thumbnails.forEach((thumbnail, index) => {
+        thumbnail.addEventListener('click', () => {
+          if (!this.isAnimating && this.currentSlide !== index) {
+            this.performTransition(index);
+            this.resetAutoplay();
+          }
+        });
+      });
+
+      this.startAutoplay();
+    }
+
+    performTransition(index) {
+      if (this.isAnimating) return;
+      this.isAnimating = true;
+      
+      // Simple fade transition
+      this.slides[this.currentSlide].classList.remove('active');
+      this.thumbnails[this.currentSlide].classList.remove('active');
+      
+      this.currentSlide = index;
+      
+      this.slides[this.currentSlide].classList.add('active');
+      this.thumbnails[this.currentSlide].classList.add('active');
+      
+      // Complete transition after animation duration
+      setTimeout(() => {
+        this.isAnimating = false;
+      }, 1500); // Match this with CSS transition duration
+    }
+
+    goToSlide(index) {
+      this.performTransition(index);
+    }
+
+    startAutoplay() {
+      this.autoplayInterval = setInterval(() => {
+        const nextSlide = (this.currentSlide + 1) % this.slides.length;
+        this.goToSlide(nextSlide);
+      }, this.slideInterval);
+    }
+
+    resetAutoplay() {
+      clearInterval(this.autoplayInterval);
+      this.startAutoplay();
+    }
+  }
+
+  // Initialize slideshow
+  document.addEventListener('DOMContentLoaded', () => {
+    new HeroSlideshow();
+  });
+</script>
+
 {% schema %}
 {
   "name": "Hero Slideshow",
   "settings": [
-    { "type": "image_picker", "id": "slide1", "label": "Slide 1" },
-    { "type": "image_picker", "id": "slide2", "label": "Slide 2" },
-    { "type": "image_picker", "id": "slide3", "label": "Slide 3" },
-    { "type": "image_picker", "id": "thumb1", "label": "Thumbnail 1" },
-    { "type": "image_picker", "id": "thumb2", "label": "Thumbnail 2" },
-    { "type": "image_picker", "id": "thumb3", "label": "Thumbnail 3" }
+    {
+      "type": "header",
+      "content": "Slide 1"
+    },
+    {
+      "type": "image_picker",
+      "id": "image_1",
+      "label": "Image"
+    },
+    {
+      "type": "text",
+      "id": "tag_1",
+      "label": "Tag",
+      "default": "Outerwear"
+    },
+    {
+      "type": "text",
+      "id": "title_1",
+      "label": "Title",
+      "default": "Between Seasons"
+    },
+    {
+      "type": "textarea",
+      "id": "description_1",
+      "label": "Description",
+      "default": "Layer up for changing weather with versatile pieces designed for adaptability. Premium materials meet considered design."
+    },
+    {
+      "type": "url",
+      "id": "button_link_1",
+      "label": "Button Link"
+    },
+    {
+      "type": "header",
+      "content": "Slide 2"
+    },
+    {
+      "type": "image_picker",
+      "id": "image_2",
+      "label": "Image"
+    },
+    {
+      "type": "text",
+      "id": "tag_2",
+      "label": "Tag",
+      "default": "Shop Now"
+    },
+    {
+      "type": "text",
+      "id": "title_2",
+      "label": "Title",
+      "default": "Curated Gifts"
+    },
+    {
+      "type": "textarea",
+      "id": "description_2",
+      "label": "Description",
+      "default": "Find the perfect present with our curated selection of premium pieces. Timeless designs for those who appreciate quality."
+    },
+    {
+      "type": "url",
+      "id": "button_link_2",
+      "label": "Button Link"
+    },
+    {
+      "type": "header",
+      "content": "Slide 3"
+    },
+    {
+      "type": "image_picker",
+      "id": "image_3",
+      "label": "Image"
+    },
+    {
+      "type": "text",
+      "id": "tag_3",
+      "label": "Tag",
+      "default": "Shop Now"
+    },
+    {
+      "type": "text",
+      "id": "title_3",
+      "label": "Title",
+      "default": "Just Dropped"
+    },
+    {
+      "type": "textarea",
+      "id": "description_3",
+      "label": "Description",
+      "default": "Limited edition release, available now"
+    },
+    {
+      "type": "url",
+      "id": "button_link_3",
+      "label": "Button Link"
+    }
   ],
   "presets": [
     {
@@ -16,202 +443,4 @@
     }
   ]
 }
-{% endschema %}
-
-<section class="hero-section">
-  <div class="hero-slideshow">
-    <div class="hero-slide active" data-slide="0">
-      <img src="{{ section.settings.slide1 | image_url: width:1920, height:1080 }}" alt="Featured Products" class="hero-bg" width="1920" height="1080" />
-      <div class="hero-content">
-        <h1>FEATURED<br>PRODUCTS</h1>
-        <p>Shop our best sellers</p>
-        <a class="hero-btn" href="/collections/all">SHOP NOW</a>
-      </div>
-      <div class="hero-loader"></div>
-    </div>
-    <div class="hero-slide" data-slide="1">
-      <img src="{{ section.settings.slide2 | image_url: width:1920, height:1080 }}" alt="Just Dropped" class="hero-bg" width="1920" height="1080" />
-      <div class="hero-content">
-        <h1>JUST<br>DROPPED</h1>
-        <p>Limited edition release, available now</p>
-        <a class="hero-btn" href="/collections/new">SHOP NOW</a>
-      </div>
-      <div class="hero-loader"></div>
-    </div>
-    <div class="hero-slide" data-slide="2">
-      <img src="{{ section.settings.slide3 | image_url: width:1920, height:1080 }}" alt="Featured Products" class="hero-bg" width="1920" height="1080" />
-      <div class="hero-content">
-        <h1>FEATURED<br>PRODUCTS</h1>
-        <p>Shop our best sellers</p>
-        <a class="hero-btn" href="/collections/all">SHOP NOW</a>
-      </div>
-      <div class="hero-loader"></div>
-    </div>
-    <div class="hero-thumbnails">
-      <div class="thumb active" data-thumb="0">
-        <img src="{{ section.settings.thumb1 | image_url: width:80, height:80 }}" alt="Thumb 1" width="80" height="80" />
-      </div>
-      <div class="thumb" data-thumb="1">
-        <img src="{{ section.settings.thumb2 | image_url: width:80, height:80 }}" alt="Thumb 2" width="80" height="80" />
-      </div>
-      <div class="thumb" data-thumb="2">
-        <img src="{{ section.settings.thumb3 | image_url: width:80, height:80 }}" alt="Thumb 3" width="80" height="80" />
-      </div>
-    </div>
-  </div>
-</section>
-
-<style>
-.hero-section {
-  position: relative;
-  width: 100vw;
-  min-height: 100vh;
-  overflow: hidden;
-  background: #111;
-}
-.hero-slideshow {
-  position: relative;
-  width: 100vw;
-  height: 100vh;
-}
-.hero-slide {
-  display: none;
-  position: absolute;
-  width: 100vw;
-  height: 100vh;
-  top: 0; left: 0;
-  transition: opacity 0.5s;
-  z-index: 1;
-}
-.hero-slide.active {
-  display: block;
-  z-index: 2;
-}
-.hero-bg {
-  width: 100vw;
-  height: 100vh;
-  object-fit: cover;
-  filter: brightness(0.85);
-}
-.hero-content {
-  position: absolute;
-  top: 50%;
-  left: 5vw;
-  transform: translateY(-50%);
-  color: #fff;
-  z-index: 3;
-}
-.hero-content h1 {
-  font-size: 5vw;
-  font-family: serif;
-  font-weight: bold;
-  line-height: 1;
-  margin-bottom: 2vw;
-  letter-spacing: -0.05em;
-}
-.hero-content p {
-  font-size: 1vw;
-  margin-bottom: 2vw;
-}
-.hero-btn {
-  padding: 0.5vw 2vw;
-  background: #fff;
-  color: #111;
-  font-weight: bold;
-  text-decoration: none;
-  border-radius: 2px;
-  font-size: 1vw;
-  border: 2px solid #fff;
-  transition: background 0.2s, color 0.2s;
-}
-.hero-btn:hover {
-  background: #111;
-  color: #fff;
-}
-.hero-thumbnails {
-  position: absolute;
-  bottom: 3vw;
-  right: 5vw;
-  display: flex;
-  gap: 1vw;
-  z-index: 5;
-}
-.thumb {
-  border: 2px solid transparent;
-  cursor: pointer;
-  border-radius: 2px;
-  overflow: hidden;
-  width: 4vw;
-  height: 4vw;
-  transition: border 0.2s;
-}
-.thumb.active {
-  border: 2px solid #fff;
-}
-.thumb img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-.hero-loader {
-  position: absolute;
-  bottom: 2vw;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 40px;
-  height: 4px;
-  background: rgba(255,255,255,0.2);
-  border-radius: 2px;
-  overflow: hidden;
-  z-index: 10;
-}
-.hero-slide.active .hero-loader::after {
-  content: '';
-  display: block;
-  height: 100%;
-  width: 0%;
-  background: #fff;
-  animation: loader-bar 4s linear forwards;
-}
-@keyframes loader-bar {
-  0% { width: 0%; }
-  100% { width: 100%; }
-}
-@media (max-width: 900px) {
-  .hero-content h1 { font-size: 8vw; }
-  .hero-btn, .hero-content p { font-size: 3vw; }
-}
-</style>
-
-<script>
-(function() {
-  var slides = document.querySelectorAll('.hero-slide');
-  var thumbs = document.querySelectorAll('.thumb');
-  var current = 0;
-  var timer;
-
-  function showSlide(idx) {
-    slides[current].classList.remove('active');
-    thumbs[current].classList.remove('active');
-    current = idx;
-    slides[current].classList.add('active');
-    thumbs[current].classList.add('active');
-    resetTimer();
-  }
-
-  function resetTimer() {
-    if (timer) clearTimeout(timer);
-    timer = setTimeout(function() {
-      showSlide((current + 1) % slides.length);
-    }, 4000);
-  }
-
-  thumbs.forEach(function(thumb, idx) {
-    thumb.addEventListener('click', function() {
-      showSlide(idx);
-    });
-  });
-
-  showSlide(0);
-})();
-</script>
+{% endschema %} 
