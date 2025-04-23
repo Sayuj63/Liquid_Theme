@@ -1,0 +1,181 @@
+<!-- Cart Drawer (side pop-out) -->
+<div id="cart-drawer-overlay" style="display:none;"></div>
+<aside id="cart-drawer" class="cart-drawer">
+  <div class="cart-drawer__header">
+    <span class="cart-drawer__title"><strong>1 ITEMS IN YOUR BAG.</strong></span>
+    <button class="cart-drawer__close" aria-label="Close Cart">&times;</button>
+  </div>
+  <div class="cart-drawer__items">
+    <!-- Cart items will be rendered here by ajax-cart-drawer.js -->
+  </div>
+  <div class="cart-drawer__footer">
+    <div class="cart-drawer__subtotal-row">
+      <span>SUBTOTAL</span>
+      <span class="cart-drawer__subtotal"></span>
+    </div>
+    <div class="cart-drawer__checkout-row">
+      <button class="cart-drawer__checkout">PROCEED TO CHECKOUT</button>
+    </div>
+  </div>
+</aside>
+
+<style>
+#cart-drawer-overlay {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0,0,0,0.7);
+  z-index: 9998;
+}
+.cart-drawer {
+  position: fixed;
+  top: 0; right: 0;
+  width: 400px;
+  height: 100%;
+  background: #111;
+  color: #fff;
+  z-index: 9999;
+  box-shadow: -2px 0 16px rgba(0,0,0,0.2);
+  transform: translateX(100%);
+  transition: transform 0.33s cubic-bezier(.4,0,.2,1);
+  display: flex;
+  flex-direction: column;
+}
+.cart-drawer.open {
+  transform: translateX(0);
+}
+.cart-drawer__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 24px 20px 16px 20px;
+  border-bottom: 1px solid #222;
+}
+.cart-drawer__close {
+  background: none;
+  border: none;
+  color: #fff;
+  font-size: 2rem;
+  cursor: pointer;
+}
+.cart-drawer__items {
+  flex: 1;
+  overflow-y: auto;
+  padding: 20px;
+}
+.cart-drawer__item {
+  display: flex;
+  align-items: flex-start;
+  margin-bottom: 24px;
+  position: relative;
+}
+.cart-drawer__image {
+  width: 70px;
+  height: 90px;
+  object-fit: cover;
+  background: #222;
+  margin-right: 20px;
+}
+.cart-drawer__details {
+  flex: 1;
+}
+.cart-drawer__name {
+  font-weight: bold;
+  font-size: 1.1em;
+  margin-bottom: 4px;
+}
+.cart-drawer__meta {
+  font-size: 0.95em;
+  color: #aaa;
+  margin-bottom: 8px;
+}
+.cart-drawer__price {
+  font-size: 1em;
+  margin-bottom: 8px;
+}
+.cart-drawer__qty-controls {
+  display: flex;
+  align-items: center;
+}
+.cart-drawer__qty-btn {
+  background: #222;
+  border: none;
+  color: #fff;
+  width: 28px;
+  height: 28px;
+  font-size: 1.2em;
+  cursor: pointer;
+}
+.cart-drawer__qty {
+  margin: 0 10px;
+  font-size: 1em;
+}
+.cart-drawer__remove {
+  background: none;
+  border: none;
+  color: #fff;
+  font-size: 1.5em;
+  position: absolute;
+  top: 0; right: 0;
+  cursor: pointer;
+}
+.cart-drawer__footer {
+  padding: 20px;
+  border-top: 1px solid #222;
+}
+.cart-drawer__subtotal-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 1.2em;
+  margin-bottom: 18px;
+}
+.cart-drawer__checkout-row {
+  display: flex;
+  justify-content: center;
+}
+.cart-drawer__checkout {
+  width: 100%;
+  background: #fff;
+  color: #111;
+  font-weight: bold;
+  font-size: 1.1em;
+  padding: 16px 0;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.cart-drawer__checkout:hover {
+  background: #f2f2f2;
+}
+@media (max-width: 600px) {
+  .cart-drawer {
+    width: 100vw;
+  }
+}
+</style>
+
+<script>
+// Open/close logic
+function openCartDrawer() {
+  document.getElementById('cart-drawer').classList.add('open');
+  document.getElementById('cart-drawer-overlay').style.display = 'block';
+}
+function closeCartDrawer() {
+  document.getElementById('cart-drawer').classList.remove('open');
+  document.getElementById('cart-drawer-overlay').style.display = 'none';
+}
+document.querySelectorAll('.cart-drawer__close, #cart-drawer-overlay').forEach(btn => {
+  btn.addEventListener('click', closeCartDrawer);
+});
+// You should call openCartDrawer() when the cart is to be shown (e.g., after add to cart)
+document.addEventListener('DOMContentLoaded', function() {
+  var openCartBtn = document.getElementById('open-cart-drawer');
+  if (openCartBtn) {
+    openCartBtn.addEventListener('click', function(e) {
+      e.preventDefault();
+      openCartDrawer();
+    });
+  }
+});
+</script>
+<script src="/assets/ajax-cart-drawer.js" defer></script>
